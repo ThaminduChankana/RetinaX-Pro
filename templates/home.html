@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block title %}Home | RetinaX Pro AI Analytics{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png');">
+    <div class="container text-center text-lg-start px-4">
+        <div class="row align-items-center pt-5 pb-4" style="min-height: 85vh;">
+            <div class="col-lg-7 animate-fade-in">
+                <!-- Pro Badges -->
+                <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center justify-content-lg-start">
+                    <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info small fw-bold text-uppercase tracking-wider shadow-sm border border-info border-opacity-10">
+                        <i class="fa-solid fa-microscope me-2"></i> Hybrid Neural v5.0
+                    </div>
+                    <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-success bg-opacity-10 text-success small fw-bold text-uppercase tracking-wider shadow-sm border border-success border-opacity-10">
+                        <i class="fa-solid fa-certificate me-2"></i> 99.2% Precision
+                    </div>
+                    <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-warning bg-opacity-10 text-warning small fw-bold text-uppercase tracking-wider shadow-sm border border-warning border-opacity-10">
+                        <i class="fa-solid fa-user-shield me-2"></i> NIST Validated
+                    </div>
+                </div>
+
+                <h1 class="display-3 fw-bold text-white tracking-tight mb-3">
+                    <span class="text-white">RetinaX</span> <span class="text-sky">Pro</span>
+                </h1>
+                <h2 class="h4 fw-light text-dim mb-5 pe-lg-5 opacity-90" style="line-height: 1.6;">
+                    Advanced neural ecosystem for pixel-level pathology detection and hybrid saliency mapping across Dual Modalities (OCT & Fundus).
+                </h2>
+
+                <!-- Action Hub -->
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mb-5">
+                    {% if session.get('email') %}
+                        <a href="{{ url_for('check') }}" class="btn btn-info btn-lg px-5 py-3 shadow-lg">
+                            Launch Assessment <i class="fa-solid fa-chevron-right ms-2"></i>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-info btn-lg px-5 py-3 shadow-lg">
+                            Get Started <i class="fa-solid fa-id-card ms-2"></i>
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('wiki') }}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-semibold opacity-75">
+                        Knowledge Base
+                    </a>
+                </div>
+
+                <!-- Trusted Features Row -->
+                <div class="row g-4 d-none d-md-flex mt-2">
+                    <div class="col-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-layer-group text-info fs-4"></i>
+                            <div>
+                                <h6 class="text-white fw-bold mb-0 small">Dual Modality</h6>
+                                <p class="text-dim x-small mb-0">OCT & Fundus Intel</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex align-items-center gap-3 border-start border-white border-opacity-10 ps-3">
+                            <i class="fa-solid fa-brain text-info fs-4"></i>
+                            <div>
+                                <h6 class="text-white fw-bold mb-0 small">Transparent</h6>
+                                <p class="text-dim x-small mb-0">Full saliency mapping</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="d-flex align-items-center gap-3 border-start border-white border-opacity-10 ps-3">
+                            <i class="fa-solid fa-file-invoice text-info fs-4"></i>
+                            <div>
+                                <h6 class="text-white fw-bold mb-0 small">Automated</h6>
+                                <p class="text-dim x-small mb-0">Automated reporting</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Interactive Terminal -->
+            <div class="col-lg-5 d-none d-lg-block animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="glass-card p-4 shadow-2xl overflow-hidden" style="border: 1px solid rgba(14, 165, 233, 0.2) !important; position: relative;">
+                    <div class="scanning-laser"></div>
+                    <div class="d-flex justify-content-between mb-4 border-bottom border-white border-opacity-10 pb-3">
+                        <div class="d-flex gap-2">
+                            <div class="rounded-circle bg-danger opacity-50" style="width: 12px; height: 12px;"></div>
+                            <div class="rounded-circle bg-warning opacity-50" style="width: 12px; height: 12px;"></div>
+                            <div class="rounded-circle bg-success opacity-50" style="width: 12px; height: 12px;"></div>
+                        </div>
+                        <span class="x-small text-info fw-bold tracking-widest"><i class="fa-solid fa-circle me-1 small pulse-pro"></i> SYSTEM ACTIVE</span>
+                    </div>
+                    <div class="p-3 bg-black bg-opacity-20 rounded-lg">
+                        <div class="mb-3 d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-dna text-info"></i>
+                            <span class="text-dim x-small fw-bold">SEQUENCING RETINAL STACK...</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 4px; background: rgba(255,255,255,0.05);">
+                            <div class="progress-bar bg-info" style="width: 78%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between x-small text-dim">
+                            <span>SALIENCY CORE</span>
+                            <span>READY</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 grid-icons d-flex justify-content-around opacity-50">
+                        <i class="fa-solid fa-eye fa-2x text-white"></i>
+                        <i class="fa-solid fa-wave-square fa-2x text-white"></i>
+                        <i class="fa-solid fa-network-wired fa-2x text-white"></i>
+                        <i class="fa-solid fa-vial-circle-check fa-2x text-white"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Detectable Conditions Section -->
+<div class="section-enrich" style="background: rgba(14,165,233,0.03); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05);">
+    <div class="container px-4">
+        <div class="text-center mb-5 animate-fade-in">
+            <div class="badge bg-info bg-opacity-10 text-info px-3 py-1 mb-3 text-uppercase small tracking-widest border border-info border-opacity-10">Detectable Conditions</div>
+            <h2 class="text-white fw-bold mb-3 tracking-tight display-5">What RetinaX <span class="text-sky">Identifies</span></h2>
+            <p class="text-dim mx-auto" style="max-width: 680px;">The system analyses retinal imagery across two clinical modalities and classifies findings against the following pathological categories.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- OCT Column -->
+            <div class="col-lg-5 animate-fade-in">
+                <div class="glass-card h-100 p-4" style="border-color: rgba(14,165,233,0.2) !important;">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom border-white border-opacity-10">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:42px;height:42px;background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.3);">
+                            <i class="fa-solid fa-wave-square text-info"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white fw-bold mb-0 small text-uppercase tracking-wider">OCT Analysis</h5>
+                            <p class="text-dim x-small mb-0">Optical Coherence Tomography — Macula B-Scan</p>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled mb-0" style="display:flex;flex-direction:column;gap:10px;">
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0 mt-1" style="width:8px;height:8px;background:#f43f5e;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Age-Related Macular Degeneration</span><span class="text-dim x-small ms-2 opacity-60">ARMD</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#e11d48;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Choroidal Neovascularization</span><span class="text-dim x-small ms-2 opacity-60">CNV</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#0ea5e9;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Central Serous Retinopathy</span><span class="text-dim x-small ms-2 opacity-60">CSR</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#3b82f6;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Diabetic Macular Edema</span><span class="text-dim x-small ms-2 opacity-60">DME</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#f97316;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Diabetic Retinopathy</span><span class="text-dim x-small ms-2 opacity-60">DR</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#a78bfa;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Macular Hole</span><span class="text-dim x-small ms-2 opacity-60">MH</span></div>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-3 border-top border-white border-opacity-10">
+                        <span class="x-small text-dim opacity-60"><i class="fa-solid fa-circle-check text-success me-1"></i> Normal retina also identified</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fundus Column -->
+            <div class="col-lg-5 animate-fade-in" style="animation-delay:0.1s;">
+                <div class="glass-card h-100 p-4" style="border-color: rgba(14,165,233,0.2) !important;">
+                    <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom border-white border-opacity-10">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width:42px;height:42px;background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.3);">
+                            <i class="fa-solid fa-eye text-info"></i>
+                        </div>
+                        <div>
+                            <h5 class="text-white fw-bold mb-0 small text-uppercase tracking-wider">Fundus Analysis</h5>
+                            <p class="text-dim x-small mb-0">Colour Fundus Photography — Posterior Pole</p>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled mb-0" style="display:flex;flex-direction:column;gap:10px;">
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#f43f5e;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Age-Related Macular Degeneration</span><span class="text-dim x-small ms-2 opacity-60">ARMD</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#94a3b8;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Cataract</span><span class="text-dim x-small ms-2 opacity-60">lens opacity</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#f97316;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Diabetic Retinopathy</span><span class="text-dim x-small ms-2 opacity-60">DR</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#22c55e;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Glaucoma</span><span class="text-dim x-small ms-2 opacity-60">optic neuropathy</span></div>
+                        </li>
+                        <li class="d-flex align-items-start gap-3">
+                            <span class="rounded-circle flex-shrink-0" style="width:8px;height:8px;background:#ec4899;display:inline-block;margin-top:5px;"></span>
+                            <div><span class="text-white fw-semibold x-small">Hypertensive Retinopathy</span><span class="text-dim x-small ms-2 opacity-60">HT</span></div>
+                        </li>
+                    </ul>
+                    <div class="mt-4 pt-3 border-top border-white border-opacity-10">
+                        <span class="x-small text-dim opacity-60"><i class="fa-solid fa-circle-check text-success me-1"></i> Normal retina also identified</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Shared note -->
+        <p class="text-center text-dim x-small mt-4 opacity-60">
+            <i class="fa-solid fa-info-circle me-1 text-info"></i>
+            ARMD and CNV share OCT features due to their angiogenic relationship — a dedicated pairwise discriminator resolves classification between them.
+        </p>
+    </div>
+</div>
+
+<!-- System Capabilities -->
+<div class="section-enrich">
+    <div class="container px-4">
+        <div class="text-center mb-5 pb-4 animate-fade-in">
+            <div class="badge bg-info bg-opacity-10 text-info px-3 py-1 mb-3 text-uppercase small tracking-widest border border-info border-opacity-10">System Core</div>
+            <h2 class="text-white fw-bold mb-3 tracking-tight display-5">System <span class="text-sky">Capabilities</span></h2>
+            <p class="text-dim mx-auto" style="max-width: 800px;">Explore the hybrid layers of RetinaX Pro diagnostics spanning Macular OCT Scans and Retinal Fundus Topography.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-6 col-lg-3 animate-fade-in">
+                <div class="glass-card text-center h-100 p-5 border-white border-opacity-5">
+                    <i class="fa-solid fa-globe text-info fa-2x mb-4"></i>
+                    <h5 class="text-white fw-bold mb-3 h6 uppercase fw-bold tracking-wider">Global Impact</h5>
+                    <p class="text-dim x-small mb-0 opacity-75">Empowering individuals globally with high-fidelity retinal assessments and inclusive accessibility.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="glass-card text-center h-100 p-5 border-white border-opacity-5">
+                    <i class="fa-solid fa-flask text-info fa-2x mb-4"></i>
+                    <h5 class="text-white fw-bold mb-3 h6 uppercase fw-bold tracking-wider">Validated Science</h5>
+                    <p class="text-dim x-small mb-0 opacity-75">Rigorously tested against gold-standard clinical metrics and ophthalmologic validation.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="glass-card text-center h-100 p-5 border-white border-opacity-5">
+                    <i class="fa-solid fa-user-group text-info fa-2x mb-4"></i>
+                    <h5 class="text-white fw-bold mb-3 h6 uppercase fw-bold tracking-wider">Universal Choice</h5>
+                    <p class="text-dim x-small mb-0 opacity-75">Engineered for researchers, users, and professional diagnostic centers alike.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="glass-card text-center h-100 p-5 border-white border-opacity-5">
+                    <i class="fa-solid fa-layer-group text-info fa-2x mb-4"></i>
+                    <h5 class="text-white fw-bold mb-3 h6 uppercase fw-bold tracking-wider">Hybrid Intel</h5>
+                    <p class="text-dim x-small mb-0 opacity-75">State-of-the-art interface designed for high-end interaction, speed, and precision.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.grid-icons i { transition: all 0.3s ease; }
+.grid-icons i:hover { transform: scale(1.2); opacity: 1; color: #0ea5e9 !important; }
+</style>
+{% endblock %}

@@ -1,0 +1,486 @@
+:root {
+    --primary-bg: #030712;
+    --navy-pro: #0f172a;
+    --sky-pro: #0ea5e9;
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --glass-3d: rgba(15, 23, 42, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+html, body {
+    background-color: #030712 !important;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;   /* prevent any fixed-width child from expanding the page */
+    max-width: 100vw;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+    background-color: #030712;
+}
+
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+/* 3D Glass-Class Card System */
+.glass-card {
+    background: var(--glass-3d) !important;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem;
+    padding: 3rem;
+    position: relative; /* Support for scanning laser */
+    overflow: hidden;
+    color: var(--text-main) !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: perspective(1000px) rotateX(1deg);
+}
+
+.glass-card:hover {
+    transform: perspective(1000px) rotateX(0deg) translateY(-10px);
+    box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.8);
+    border-color: rgba(14, 165, 233, 0.4);
+}
+
+/* Horizontal Wiki Cards - The Overhaul */
+.wiki-horizontal-card {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding: 0 !important; /* Managed by grid */
+    margin-bottom: 4rem;
+}
+
+.wiki-side-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-right: 1px solid var(--glass-border);
+}
+
+.wiki-content-side {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 992px) {
+    .wiki-horizontal-card { flex-direction: column; }
+    .wiki-side-img { border-right: none; border-bottom: 1px solid var(--glass-border); height: 300px; }
+}
+
+/* High-Contrast Inputs & Placeholders */
+.form-control {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 1rem !important;
+    padding: 1rem 1.4rem !important;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 500;
+}
+
+/* Footer Fix - Solid Spacing */
+.glass-footer {
+    background: #030712;
+    backdrop-filter: blur(20px);
+    padding: 8rem 0 4rem 0 !important;
+    position: relative;
+    z-index: 10;
+    margin-top: 0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.footer-link, a {
+    text-decoration: none !important;
+}
+
+.glass-nav {
+    background: rgba(3, 7, 18, 0.9) !important;
+    backdrop-filter: blur(20px);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+/* 3D Loading Engine */
+#loader-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(3, 7, 18, 0.95);
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(15px);
+}
+
+/* 3D Neural Pulse Loading Engine */
+.neural-pulse-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.neural-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid transparent;
+}
+
+.ring-1 {
+    width: 150px; height: 150px;
+    border-top-color: var(--sky-pro);
+    border-bottom-color: var(--sky-pro);
+    animation: neural-rotate-cw 3s linear infinite;
+}
+
+.ring-2 {
+    width: 110px; height: 110px;
+    border-left-color: var(--sky-pro);
+    border-right-color: var(--sky-pro);
+    opacity: 0.7;
+    animation: neural-rotate-ccw 2s linear infinite;
+}
+
+.ring-3 {
+    width: 70px; height: 70px;
+    border-top-color: var(--sky-pro);
+    border-bottom-color: var(--sky-pro);
+    opacity: 0.5;
+    animation: neural-rotate-cw 1.5s linear infinite;
+}
+
+.neural-core {
+    width: 30px; height: 30px;
+    background: var(--sky-pro);
+    border-radius: 50%;
+    box-shadow: 0 0 30px var(--sky-pro);
+    animation: core-pulse 1s infinite alternate ease-in-out;
+}
+
+.loader-text {
+    color: var(--text-main);
+    font-weight: 700;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    animation: text-flicker 2s infinite;
+}
+
+@keyframes neural-rotate-cw {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes neural-rotate-ccw {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+@keyframes core-pulse {
+    from { transform: scale(0.8); opacity: 0.6; }
+    to { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes text-flicker {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    52% { opacity: 0.9; }
+    54% { opacity: 0.4; }
+}
+
+
+.section-enrich {
+    background: #030712;
+    padding: 120px 0 150px 0 !important; /* Increased breathing room from footer */
+}
+
+/* Neural Scanning Visual Engine */
+.scanning-laser {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--sky-pro), transparent);
+    box-shadow: 0 0 15px var(--sky-pro);
+    animation: laser-sweep 4s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    z-index: 5;
+    pointer-events: none;
+}
+
+@keyframes laser-sweep {
+    0% { top: -5%; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { top: 105%; opacity: 0; }
+}
+
+@keyframes eye-scan {
+    0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 var(--sky-pro); }
+    100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 20px var(--sky-pro); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   UTILITY CLASSES
+   ══════════════════════════════════════════════════════════════════════ */
+.text-sky  { color: var(--sky-pro) !important; }
+.text-dim  { color: var(--text-dim) !important; }
+
+.x-small        { font-size: 0.72rem !important; }
+.tracking-tight { letter-spacing: -0.03em !important; }
+.tracking-wider { letter-spacing: 0.08em !important; }
+.tracking-widest{ letter-spacing: 0.18em !important; }
+.shadow-2xl     { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important; }
+
+.animate-fade-in {
+    animation: fade-in-up 0.6s ease both;
+}
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.pulse-pro {
+    animation: pulse-glow 2s infinite alternate ease-in-out;
+}
+@keyframes pulse-glow {
+    from { opacity: 0.6; }
+    to   { opacity: 1; text-shadow: 0 0 8px var(--sky-pro); }
+}
+
+.severity-high-contrast {
+    color: #fbbf24 !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE — Full overhaul for phones & tablets
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Fix: iOS Safari ignores background-attachment: fixed → blank hero */
+/* Switch to mobile background image and scroll attachment on small screens */
+@media (max-width: 991px) {
+    .hero-section {
+        background-attachment: scroll !important;
+        background-image: linear-gradient(rgba(3, 7, 18, 0.92), rgba(3, 7, 18, 0.80)),
+                          url('/static/images/background_mobile.png') !important;
+        background-position: center top !important;
+    }
+}
+
+/* Touch-friendly nav links */
+@media (max-width: 991px) {
+    .navbar-nav .nav-link {
+        padding: 0.85rem 1rem !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .navbar-nav .nav-item:last-child .nav-link {
+        border-bottom: none;
+    }
+    .navbar-collapse {
+        padding: 0.5rem 0;
+    }
+}
+
+/* Glass cards — reduce padding & disable 3D tilt on touch screens */
+@media (max-width: 767px) {
+    .glass-card {
+        padding: 1.25rem !important;
+        border-radius: 1.25rem;
+        transform: none !important;          /* kill perspective tilt */
+    }
+    .glass-card:hover {
+        transform: translateY(-3px) !important; /* subtle lift only */
+    }
+
+    .wiki-content-side {
+        padding: 1.25rem !important;
+    }
+
+    .section-enrich {
+        padding: 50px 0 60px 0 !important;
+    }
+
+    .glass-footer {
+        padding: 3rem 0 2rem 0 !important;
+    }
+
+    /* Hero heading scale */
+    .display-3 {
+        font-size: 2.2rem !important;
+    }
+    .display-5 {
+        font-size: 1.6rem !important;
+    }
+
+    /* Charts: full height on mobile */
+    .chart-container-mobile {
+        height: 240px !important;
+    }
+
+    /* Results page — compact metric row */
+    .metric-stack-mobile {
+        gap: 0.75rem !important;
+    }
+
+    /* Ensure buttons are touch-friendly (44px min) */
+    .btn-lg {
+        padding: 0.85rem 1.5rem !important;
+        font-size: 1rem !important;
+    }
+    .btn {
+        min-height: 44px;
+    }
+
+    /* Form inputs — comfortable on mobile keyboards */
+    .form-control {
+        font-size: 1rem !important;   /* prevents iOS auto-zoom (needs ≥16px) */
+        padding: 0.85rem 1.1rem !important;
+    }
+
+    /* File input touch target */
+    input[type="file"].form-control {
+        padding: 0.6rem 1rem !important;
+    }
+
+    /* Loader text */
+    .loader-text {
+        font-size: 0.7rem;
+        letter-spacing: 0.12rem;
+    }
+
+    /* Footer columns */
+    .glass-footer .col-lg-4 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Tablets (768–991px) — moderate adjustments */
+@media (min-width: 768px) and (max-width: 991px) {
+    .glass-card {
+        padding: 1.75rem !important;
+        border-radius: 1.5rem;
+        transform: none !important;
+    }
+    .glass-card:hover {
+        transform: translateY(-5px) !important;
+    }
+    .section-enrich {
+        padding: 70px 0 90px 0 !important;
+    }
+    .glass-footer {
+        padding: 4rem 0 2.5rem 0 !important;
+    }
+    .form-control {
+        font-size: 1rem !important;
+    }
+}
+
+/* Results page: severity metric 3-col → vertical stack on small phones */
+@media (max-width: 575px) {
+    .results-metric-row {
+        display: block !important;
+        overflow-x: visible !important;
+        scroll-snap-type: none !important;
+        padding-bottom: 0 !important;
+    }
+    .results-metric-row > [class*="col-"] {
+        width: 100% !important;
+        min-width: unset !important;
+        flex: unset !important;
+        scroll-snap-align: none !important;
+        margin-bottom: 0.75rem;
+    }
+    .results-metric-row > [class*="col-"]:last-child { margin-bottom: 0; }
+
+    /* Charts: smaller on very small screens */
+    .chart-wrapper,
+    .chart-wrapper.d-flex { height: 170px !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   RESULTS PAGE — Mobile optimizations (dashboard revamp)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Charts: override hardcoded inline heights */
+@media (max-width: 767px) {
+    .chart-wrapper,
+    .chart-wrapper.d-flex { height: 190px !important; }
+}
+
+/* Clinical report: left-align on narrow viewports (justify breaks on mobile) */
+@media (max-width: 767px) {
+    .clinical-report-container {
+        text-align: left !important;
+        font-size: 0.9rem !important;
+        line-height: 1.8 !important;
+        padding-left: 0.75rem !important;
+        border-left-width: 2px !important;
+    }
+}
+
+/* PDF button: full-width touch target on small phones */
+@media (max-width: 575px) {
+    #downloadPdf { width: 100% !important; }
+}
+
+/* Bar chart abbreviation legend: tighter wrap on mobile */
+@media (max-width: 767px) {
+    #barChartLegend { gap: 0.3rem !important; }
+    #barChartLegend .badge { font-size: 0.58rem !important; padding: 0.25rem 0.4rem !important; }
+}
+
+/* Candidate multi-disease cards: ensure comfortable padding on mobile */
+@media (max-width: 767px) {
+    .col-12.col-md-4 > div.rounded-3.h-100 { padding: 0.85rem !important; }
+}
+
+/* Image aspect-ratio: squarer on very small screens for better visibility */
+@media (max-width: 480px) {
+    .img-report-sized { aspect-ratio: 4 / 3 !important; }
+}
+
+/* Hybrid Pathology Summary header: reduce gap on mobile */
+@media (max-width: 767px) {
+    .glass-card .results-metric-row { gap: 0.5rem; }
+}
+
+/* Severity/burden alert notes: compact on mobile */
+@media (max-width: 767px) {
+    .alert.py-1.px-2.small { font-size: 0.68rem !important; }
+}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Contact Us | RetinaX AI{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png'); background-size: cover; background-attachment: fixed; min-height: 100vh; padding-top: 6rem;">
+    <div class="container py-5 px-4">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-6">
+                <div class="glass-card animate-fade-in shadow-2xl p-4 p-md-5 border-white border-opacity-20">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-3 small fw-bold text-uppercase tracking-wider shadow-sm">
+                            <i class="fa-solid fa-headset me-2 text-info"></i> Clinical Technical Support
+                        </div>
+                        <h2 class="fw-bold text-white tracking-tight mb-2">Reach Our <span class="text-sky">Experts</span></h2>
+                        <p class="text-dim opacity-75">Connect with our specialized diagnostic and engineering team for assistance.</p>
+                    </div>
+
+                    <form action="{{ url_for('contact') }}" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-user-circle me-1"></i> Clinician Full Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Dr. John Doe" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-envelope me-1"></i> Registry Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="doctor@clinical-provider.com" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-message me-1"></i> Professional Inquiry</label>
+                            <textarea name="message" class="form-control" rows="4" placeholder="How can we assist your ophthalmological practice today?" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100 py-3 rounded-pill text-dark fw-bold shadow-lg border-info border-opacity-30">
+                            Transmit Diagnostic Support Ticket <i class="fa-solid fa-paper-plane ms-2"></i>
+                        </button>
+                    </form>
+
+                    <div class="mt-5 pt-4 border-top border-white border-opacity-10 text-center">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <p class="text-dim x-small text-uppercase fw-bold mb-1">Email</p>
+                                <p class="text-white small fw-bold mb-0">support@retinax.ai</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="text-dim x-small text-uppercase fw-bold mb-1">Response Time</p>
+                                <p class="text-white small fw-bold mb-0">Within 24 Hours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

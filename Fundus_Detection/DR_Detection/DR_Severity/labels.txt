@@ -1,0 +1,3 @@
+Non_Referable
+Proliferative_DR
+Referable_NPDR

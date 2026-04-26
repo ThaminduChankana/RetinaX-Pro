@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RetinaX Pro | AI Retinal Analytics{% endblock %}</title>
+    
+    <!-- Bootstrap 5.3 & Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom 3D Glass-Class Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Pro 3D Loading Engine Overlay -->
+    <div id="loader-overlay">
+        <div class="neural-pulse-container">
+            <div class="neural-ring ring-1"></div>
+            <div class="neural-ring ring-2"></div>
+            <div class="neural-ring ring-3"></div>
+            <div class="neural-core"></div>
+        </div>
+        <div class="loader-text">AI Diagnostic Sequencing...</div>
+    </div>
+
+    <!-- Navbar with 3D Glass Filter -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top glass-nav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                <i class="fa-solid fa-eye-low-vision me-2 text-info"></i>
+                <span class="fw-bold tracking-tight">RetinaX Pro</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('wiki') }}">Medical Wiki</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="{{ url_for('saliency') }}">Technology</a>
+                    </li>
+                    <li class="nav-item text-nowrap">
+                        <a class="nav-link px-3" href="{{ url_for('check') }}">Diagnostics</a>
+                    </li>
+                    {% if session.get('email') %}
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-info btn-sm rounded-pill px-4 text-white fw-bold shadow-sm" href="{{ url_for('logout') }}">
+                                <i class="fa-solid fa-power-off me-1"></i> Logout
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-info btn-sm rounded-pill px-4 text-white fw-bold shadow-sm" href="{{ url_for('login') }}">
+                                <i class="fa-solid fa-id-card me-1"></i> Access Portal
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="glass-footer border-top border-white border-opacity-10">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center text-lg-start">
+                    <a class="navbar-brand d-flex align-items-center justify-content-center justify-content-lg-start mb-3" href="/">
+                        <i class="fa-solid fa-eye-low-vision me-2 text-info"></i>
+                        <span class="fw-bold text-white">RetinaX Pro</span>
+                    </a>
+                    <p class="text-dim small mb-4 pe-lg-5" style="white-space: normal;">Leading the next generation of ophthalmological care through precision-engineered hybrid saliency networks and automated clinical reporting.</p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#" class="footer-link fs-5 text-white opacity-50 hover-opacity-100"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="footer-link fs-5 text-white opacity-50 hover-opacity-100"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="footer-link fs-5 text-white opacity-50 hover-opacity-100"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h6 class="text-white fw-bold mb-4 opacity-75">Knowledge Center</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('wiki') }}" class="footer-link text-dim small">Disease Pathology Wiki</a></li>
+                        <li class="mb-2"><a href="{{ url_for('saliency') }}" class="footer-link text-dim small">Saliency Extraction Technology</a></li>
+                        <li class="mb-2"><a href="{{ url_for('about') }}" class="footer-link text-dim small">Development Methodology</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 text-center text-lg-start">
+                    <h6 class="text-white fw-bold mb-4 opacity-75">Technical Contact</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2 text-dim small"><i class="fa-solid fa-envelope me-2"></i> analytics@retinax.pro</li>
+                        <li class="mb-2 text-dim small"><i class="fa-solid fa-headset me-2"></i> 24/7 Technical Support</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-white border-opacity-10 pt-4 text-center mt-5">
+                <p class="text-dim x-small mb-0 mt-2">&copy; 2026 RetinaX Pro AI Systems. All Rights Reserved. Empowering Users Globally.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Close mobile navbar when any nav-link is tapped
+        document.querySelectorAll('.navbar-nav .nav-link, .navbar-nav .btn').forEach(function(el) {
+            el.addEventListener('click', function() {
+                var toggler = document.querySelector('.navbar-toggler');
+                var navCollapse = document.getElementById('navbarNav');
+                if (navCollapse && navCollapse.classList.contains('show')) {
+                    toggler && toggler.click();
+                }
+            });
+        });
+
+        // Loader overlay — show on form submit only (prevent it staying on back-navigation)
+        window.addEventListener('pageshow', function(e) {
+            var overlay = document.getElementById('loader-overlay');
+            if (overlay) overlay.style.display = 'none';
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

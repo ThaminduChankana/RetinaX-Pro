@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Technology Center | RetinaX Pro AI Analytics{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png');">
+    <div class="container py-5 px-4 mt-5">
+        <div class="text-center mb-5 animate-fade-in">
+            <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-4 small fw-bold text-uppercase tracking-wider">
+                <i class="fa-solid fa-microchip me-2"></i> Hybrid Saliency Extraction Technology
+            </div>
+            <h1 class="display-4 fw-bold text-white tracking-tight mb-3">AI Deep <span class="text-sky text-sky-pro">Science</span></h1>
+            <p class="text-dim mx-auto" style="max-width: 800px;">Explore the pixel-level neural architecture powering automated clinical justifications and professional-grade saliency mapping.</p>
+        </div>
+
+        <div class="row g-5 align-items-stretch mb-5">
+            <!-- Technology Core Content -->
+            <div class="col-lg-7 animate-fade-in">
+                <div class="glass-card h-100 p-5">
+                    <h3 class="text-white fw-bold mb-4">Neural Architecture Context</h3>
+                    <p class="text-dim mb-4 fs-6 opacity-90 lh-lg">RetinaX Pro utilizes a customized version of Gradient-weighted Class Activation Mapping (Grad-CAM), significantly enhanced with proprietary pixel-level saliency extraction logic. Operating dually across **Fundus** (color structural topology) and **OCT** (optical coherence layer depth) scans, this hybrid approach ensures that every diagnostic probability is justified by distinct anatomical evidence.</p>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6 text-center text-md-start">
+                            <h6 class="text-sky fw-bold mb-2">Grad-CAM Extraction</h6>
+                            <p class="text-dim x-small">Visualizing the final convolutional layer activations to localize pathological biomarkers within the retinal stack.</p>
+                        </div>
+                        <div class="col-md-6 text-center text-md-start">
+                            <h6 class="text-sky fw-bold mb-2">Pixel Density Impact</h6>
+                            <p class="text-dim x-small">Quantifying the anatomical burden of CNV or Drusen to provide hard numerical justifying metrics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Flow Component -->
+            <div class="col-lg-5 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="glass-card h-100 p-4 border-info border-opacity-10 d-flex flex-column justify-content-center align-items-center text-center">
+                    <div class="rounded-circle bg-info bg-opacity-5 p-4 mb-4 shadow-2xl border-info border-opacity-20">
+                        <i class="fa-solid fa-bolt-lightning text-info fa-4x pulse-pro shadow-sm"></i>
+                    </div>
+                    <h4 class="text-white fw-bold mb-2">Extraction Pipeline</h4>
+                    <p class="text-dim x-small mb-4 opacity-75 mx-auto" style="max-width: 80%;">Automated pipeline for real-time diagnostic transparency.</p>
+                    <div class="w-100 px-4">
+                        <div class="d-flex justify-content-between x-small text-white opacity-50 mb-1 fw-bold">
+                            <span>PIXEL PROCESSING</span>
+                            <span>92% ACCURACY</span>
+                        </div>
+                        <div class="progress" style="height: 6px; background: rgba(255,255,255,0.05);">
+                            <div class="progress-bar bg-info" style="width: 92%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="glass-card hover-lift p-4 text-center">
+                    <i class="fa-solid fa-fingerprint text-info fa-2x mb-3 opacity-50"></i>
+                    <h5 class="text-white fw-bold mb-3">Biomarker Identification</h5>
+                    <p class="text-dim x-small mb-0 opacity-80">Localized identification of subretinal fluid, macular drusen densities, cup-to-disc atrophy (Glaucoma), and vascular nicking (HTN-R).</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="glass-card hover-lift p-4 text-center">
+                    <i class="fa-solid fa-code-merge text-info fa-2x mb-3 opacity-50"></i>
+                    <h5 class="text-white fw-bold mb-3">Hybrid Decision Maker</h5>
+                    <p class="text-dim x-small mb-0 opacity-80">Combines convolutional neural decision-making with OpenCV-based morphological metrics for dual confirmation.</p>
+                </div>
+            </div>
+            <div class="col-md-4 animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="glass-card hover-lift p-4 text-center">
+                    <i class="fa-solid fa-magnifying-glass-plus text-info fa-2x mb-3 opacity-50"></i>
+                    <h5 class="text-white fw-bold mb-3">Professional Insights</h5>
+                    <p class="text-dim x-small mb-0 opacity-80">Translates deep learning activations into professional clinical justification reports for standardized outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

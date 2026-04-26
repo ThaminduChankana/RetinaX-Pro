@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block title %}Knowledge Base | RetinaX Pro AI Analytics{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.8)), url('/static/images/background_user.png');">
+    <div class="container py-5 px-4">
+        <div class="text-center mb-5 animate-fade-in">
+            <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-3 small fw-bold text-uppercase tracking-wider shadow-sm">
+                <i class="fa-solid fa-book-medical me-2"></i> Retinal Pathology Knowledge Base
+            </div>
+            <h1 class="display-4 fw-bold text-white tracking-tight mb-3">Diagnostic <span class="text-sky">Encyclopedia</span></h1>
+            <p class="text-dim mx-auto" style="max-width: 800px;">Explore the architectural logic of retinal pathologies through the lens of hybrid neural analytics. Designed for clarity, accuracy, and universal understanding.</p>
+        </div>
+
+        <div class="d-flex flex-column gap-5 mb-5">
+            <!-- 1. CNV Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/cnv.png" class="wiki-side-img" alt="CNV Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">CNV (Choroidal Neovascularization)</h3>
+                        <p class="text-dim lh-lg mb-4">CNV involves the proliferation of abnormal blood vessels from the choroid into the sub-retinal space, often triggered by inflammation or ischemia. These vessels are fragile and prone to leakage, causing rapid structural disruption. RetinaX Pro identifies these as hyper-reflective signals within the outer retinal layers, providing a pixel-level density assessment for pathological validation.</p>
+                        <div>
+                            <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-10 px-4 py-2 small fw-bold">Critical Path</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. DME Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/dme.png" class="wiki-side-img" alt="DME Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">DME (Diabetic Macular Edema)</h3>
+                        <p class="text-dim lh-lg mb-4">DME is characterized by macular thickening due to blood-retinal barrier breakdown. Fluid accumulates within intraretinal cystic spaces, leading to significant visual distortion. Professional grading relies on foveal thickness metrics and the presence of neurosensory detachment signals. Our system segmentation allows for the precise calculation of fluid volume and total retinal burden.</p>
+                        <div>
+                            <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-10 px-4 py-2 small fw-bold">Active Fluid</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. DR Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="row g-0">
+                    <div class="col-lg-5 d-none d-lg-block"> <!-- Alternating visibility for better flow -->
+                        <img src="/static/images/wiki/dr.png" class="wiki-side-img" alt="DR Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">DR (Diabetic Retinopathy)</h3>
+                        <p class="text-dim lh-lg mb-4">DR is the clinical result of chronic hyperglycemia damaging retinal microvasculature. Early detection of microaneurysms and hemorrhages is crucial to prevent proliferative progression. RetinaX Pro's neural layers focus on identifying these subtle vascular lesions within the inner retinal stack, ensuring early intervention before permanent sight impact occurs.</p>
+                        <div>
+                            <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-10 px-4 py-2 small fw-bold">Vascular Risk</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 d-lg-none">
+                        <img src="/static/images/wiki/dr.png" class="wiki-side-img" alt="DR Illustration">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. ARMD Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/armd.png" class="wiki-side-img" alt="ARMD Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">ARMD (Age-Related Macular Degeneration)</h3>
+                        <p class="text-dim lh-lg mb-4">ARMD is primarily identified by the presence of drusen—nodular deposits of sub-RPE debris. Over time, these lead to RPE atrophy and potential geographic progression. Our AI system segments these focal elevations to calculate total drusen volume and early-stage risk scores, providing a longitudinal view of disease stability and progression.</p>
+                        <div>
+                            <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-10 px-4 py-2 small fw-bold">Monitoring Baseline</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. MH Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.4s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/mh.png" class="wiki-side-img" alt="MH Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">MH (Macular Hole)</h3>
+                        <p class="text-dim lh-lg mb-4">A Macular Hole is a full-thickness defect in the foveal tissue, triggered by anomalous vitreoretinal traction. This causes immediate disruption to central vision and requires rapid surgical intervention. The Pro pipeline identifies the distinct "break" signal and surrounding intraretinal edema, ensuring a prioritized alert for acute anatomical disruption.</p>
+                        <div>
+                            <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-10 px-4 py-2 small fw-bold">Acute Break</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. CSR Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.5s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/csr.png" class="wiki-side-img" alt="CSR Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">CSR (Central Serous Chorioretinopathy)</h3>
+                        <p class="text-dim lh-lg mb-4">CSR involves the accumulation of transparent subretinal fluid, leading to a localized serous detachment. It is typically identified on B-scans as a clear anatomical "bubble" under the fovea. RetinaX Pro's hybrid model distinguishes this from inflammatory fluid by its unique morphology and provides a precise measurement of the serous elevation height.</p>
+                        <div>
+                            <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-10 px-4 py-2 small fw-bold">Localized Serous</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. NORMAL Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.6s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/normal.png" class="wiki-side-img" alt="Normal Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">Normal (Healthy Retina)</h3>
+                        <p class="text-dim lh-lg mb-4">A healthy retina displays a distinct foveal depression and clearly defined anatomical layers. The absence of any hyper-reflective or fluid-based signals is the gold standard for diagnostic normal classification. RetinaX Pro validates this baseline against millions of healthy datasets, ensuring the system remains calibrated for the highest diagnostic specificity.</p>
+                        <div>
+                            <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-10 px-4 py-2 small fw-bold">Optimal Signal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. GLAUCOMA Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.7s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/glaucoma.png" class="wiki-side-img" alt="Glaucoma Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">Glaucoma</h3>
+                        <p class="text-dim lh-lg mb-4">Glaucoma is a progressive optic neuropathy characterized by an increased cup-to-disc ratio and distinct thinning of the retinal nerve fiber layer (RNFL), often associated with elevated intraocular pressure. Using fundus topography analysis, the Pro subsystem maps morphological changes in the optic nerve head, enabling early risk stratification before irreversible peripheral vision loss occurs.</p>
+                        <div>
+                            <span class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-10 px-4 py-2 small fw-bold">Optic Nerve</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. CATARACT Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.8s;">
+                <div class="row g-0">
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <img src="/static/images/wiki/cataract.png" class="wiki-side-img" alt="Cataract Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">Cataract</h3>
+                        <p class="text-dim lh-lg mb-4">A Cataract presents as progressive clouding and opacification of the crystalline lens, significantly reducing optical clarity and contrast. In automated fundus analysis, cataracts manifest as generalized image haziness, reduced signal-to-noise ratios, and distinct scattering artifacts. RetinaX identifies this opacification profile during initial image quality gating, classifying it as a distinct structural disorder impacting visual acuity.</p>
+                        <div>
+                            <span class="badge bg-dim bg-opacity-20 text-dim border border-white border-opacity-10 px-4 py-2 small fw-bold">Lens Opacity</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 d-lg-none">
+                        <img src="/static/images/wiki/cataract.png" class="wiki-side-img" alt="Cataract Illustration">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. HTN-R Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 0.9s;">
+                <div class="row g-0">
+                    <div class="col-lg-5">
+                        <img src="/static/images/wiki/htn_r.png" class="wiki-side-img" alt="HTN-R Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">Hypertensive Retinopathy (HTN-R)</h3>
+                        <p class="text-dim lh-lg mb-4">Hypertensive Retinopathy reflects systemic vascular damage appearing directly within the retinal vasculature due to chronic hypertension. Pathological signs include generalized arteriolar narrowing, AV nicking, flame hemorrhages, and in severe cases, macular star formations. The AI pipeline analyzes these branching vascular topologies across fundus images to grade severity and systemic vascular risk.</p>
+                        <div>
+                            <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-10 px-4 py-2 small fw-bold">Systemic Vascular</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. ARTIFACTS Card -->
+            <div class="glass-card wiki-horizontal-card animate-fade-in" style="animation-delay: 1.0s;">
+                <div class="row g-0">
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <img src="/static/images/wiki/artifacts.png" class="wiki-side-img" alt="Artifacts Illustration">
+                    </div>
+                    <div class="col-lg-7 wiki-content-side">
+                        <h3 class="text-white fw-bold mb-4">Image Quality & Artifacts</h3>
+                        <p class="text-dim lh-lg mb-4">Diagnostic accuracy depends on scan quality. Motion artifacts, shadowing from floaters, and signal loss can mimic pathology across both OCT and Fundus modalities. Users should ensure clear signal-to-noise ratios and proper anatomical centering (fovea or optic disc) for reliable AI-driven pathological justifications. Identifying these "noise" factors is as crucial as identifying the disease itself.</p>
+                        <div>
+                            <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-10 px-4 py-2 small fw-bold">Quality Variance</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 d-lg-none">
+                        <img src="/static/images/wiki/artifacts.png" class="wiki-side-img" alt="Artifacts Illustration">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

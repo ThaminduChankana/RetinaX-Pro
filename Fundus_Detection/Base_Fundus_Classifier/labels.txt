@@ -1,0 +1,6 @@
+ARMD
+Cataract
+DR
+Glaucoma
+Hypertension
+Normal

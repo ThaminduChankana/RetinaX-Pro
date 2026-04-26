@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Register | RetinaX Pro AI{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png');">
+    <div class="container py-5 px-4">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-7">
+                <div class="glass-card animate-fade-in shadow-2xl p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-3 small fw-bold text-uppercase tracking-wider shadow-sm border border-info border-opacity-10">
+                            <i class="fa-solid fa-id-card me-2 text-info"></i> User Identification
+                        </div>
+                        <h2 class="fw-bold text-white tracking-tight mb-2">Create Your <span class="text-sky">Workspace</span></h2>
+                        <p class="text-dim opacity-75">Register your user account to begin secure assessments.</p>
+                    </div>
+
+                    <form action="{{ url_for('register') }}" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-user me-1"></i> Full Name</label>
+                                <input type="text" name="fullName" class="form-control" placeholder="John Doe" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-address-card me-1"></i> NIC / ID</label>
+                                <input type="text" name="nic" class="form-control" placeholder="123456789V" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-calendar-day me-1"></i> Age</label>
+                                <input type="number" name="age" class="form-control" placeholder="45" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-venus-mars me-1"></i> Gender</label>
+                                <select name="gender" class="form-control" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-phone me-1"></i> Contact</label>
+                                <input type="text" name="contactNumber" class="form-control" placeholder="+94 7..." required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-envelope me-1"></i> Access Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="user@retinax.pro" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-building-columns me-1"></i> Primary Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="Home/Office Address" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-key me-1"></i> Security Token</label>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-info w-100 py-3 rounded-pill text-white fw-bold shadow-lg border-info border-opacity-30">
+                            Create My Account <i class="fa-solid fa-user-plus ms-2"></i>
+                        </button>
+                    </form>
+
+                    <div class="mt-4 pt-4 border-top border-white border-opacity-10 text-center">
+                        <p class="text-dim small mb-0 opacity-75">Already registered? 
+                            <a href="{{ url_for('login') }}" class="text-sky fw-bold text-decoration-none hover-underline">Login to RetinaX Pro</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

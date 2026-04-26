@@ -1,0 +1,3 @@
+Mild_Cataract
+Moderate_Cataract
+Severe_Cataract

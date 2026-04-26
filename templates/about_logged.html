@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}About Us | RetinaX AI{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background.png'); background-size: cover; background-attachment: fixed; min-height: auto; padding-top: 6rem;">
+    <div class="container py-5">
+        <div class="text-center mb-5 animate-fade-in">
+            <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-3 small fw-bold text-uppercase tracking-wider">
+                <i class="fa-solid fa-microscope me-2"></i> Scientific Methodology
+            </div>
+            <h1 class="display-4 fw-bold text-white tracking-tight mb-3">Our <span class="text-sky">Clinical</span> Mission</h1>
+            <p class="text-dim lead mx-auto" style="max-width: 800px;">Harnessing the power of hybrid neural networks to democratize advanced retinal diagnostics globally.</p>
+        </div>
+
+        <div class="row justify-content-center mb-5 animate-fade-in" style="animation-delay: 0.1s;">
+            <div class="col-lg-10">
+                <div class="glass-card p-2 border-white border-opacity-20 shadow-2xl bg-white bg-opacity-10">
+                    <video id="aboutVideo" autoplay loop muted controls class="w-100 rounded-lg shadow-lg">
+                        <source src="{{ url_for('static', filename='videos/about.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="col-lg-12">
+                <div class="glass-card p-4 p-md-5 border-white border-opacity-20">
+                    <div class="row g-5">
+                        <div class="col-lg-6">
+                            <h3 class="text-white fw-bold mb-4 d-flex align-items-center">
+                                <i class="fa-solid fa-lightbulb text-info me-3"></i> The Genesis
+                            </h3>
+                            <div class="text-dim" style="text-align: justify; line-height: 1.8;">
+                                <p>Visionary Health is at the forefront of a technological revolution in eye care, harnessing the power of machine learning to detect and manage eye diseases with unprecedented accuracy and efficiency. Our mission is to democratize eye health, making advanced identification tools accessible to everyone, everywhere.</p>
+                                <p class="mb-0">The genesis of RetinaX was driven by a simple yet profound realization: early detection of eye diseases can dramatically alter the course of treatment, potentially saving millions from vision impairment.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h3 class="text-white fw-bold mb-4 d-flex align-items-center">
+                                <i class="fa-solid fa-users-gear text-info me-3"></i> Our Team
+                            </h3>
+                            <div class="text-dim" style="text-align: justify; line-height: 1.8;">
+                                <p>At the heart of RetinaX is a diverse team comprising leading ophthalmologists, AI experts, and software developers. United by a shared vision, we bring together deep clinical knowledge and cutting-edge machine learning expertise.</p>
+                                <p class="mb-0">We believe that the intersection of healthcare and technology holds the key to transformative advances in eye care, and our team is committed to exploring the full potential of this exciting field.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,785 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic Report | RetinaX Pro v2{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.75)), url('/static/images/background_user.png'); transition: none;">
+    <div class="container py-4 px-4">
+        <!-- Header Info -->
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-3 mb-md-5 animate-fade-in gap-3">
+            <div>
+                <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-2 small fw-bold text-uppercase tracking-wider shadow-sm border border-info border-opacity-10">
+                    <i class="fa-solid fa-file-waveform me-2 text-info"></i> Diagnostic Assessment v2
+                </div>
+                <h1 class="fw-bold text-white tracking-tight mb-1 h3">RetinaX <span class="text-sky">Pro</span> Dashboard</h1>
+                <p class="text-dim mb-0 small opacity-75 text-truncate" style="max-width:300px;">
+                    <span class="text-info fw-bold">{{ report_id[:16] }}…</span> &nbsp;{{ name }}
+                </p>
+            </div>
+            <div class="flex-shrink-0">
+                <button class="btn btn-info px-3 py-2 rounded-pill fw-bold text-white shadow-lg border-info border-opacity-50 w-100" id="downloadPdf">
+                    <i class="fa-solid fa-file-pdf me-2"></i> Save PDF
+                </button>
+            </div>
+        </div>
+
+        <div id="contentToDownload">
+            <!-- Professional Summary Metrics -->
+            <div class="row g-3 mb-4 animate-fade-in">
+                <div class="col-12 col-lg-4">
+                    <div class="glass-card h-100 p-3">
+                        <h6 class="text-sky fw-bold mb-4 border-bottom border-white border-opacity-10 pb-2 text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-id-card-clip me-2 text-sky"></i> Subject Profile
+                        </h6>
+                        <div class="mb-4">
+                            <label class="text-dim x-small text-uppercase fw-bold opacity-75 d-block mb-1">Diagnostic Profile</label>
+                            <p class="text-white mb-0 h5 fw-bold">{{ age }}Y / {{ gender }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label class="text-dim x-small text-uppercase fw-bold opacity-75 d-block mb-1">Clinic Reference</label>
+                            <p class="text-white mb-0 small fw-semibold">{{ contact_number }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-8">
+                    <div class="glass-card h-100 p-3 border-info border-opacity-20" style="background: rgba(15, 23, 42, 0.8) !important;">
+                        <h6 class="text-sky fw-bold mb-4 border-bottom border-white border-opacity-10 pb-2 text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-dna me-2"></i> Hybrid Pathology Summary
+                        </h6>
+                        <div class="row g-3 text-center results-metric-row">
+                            <div class="col-md-4 col-6">
+                                <label class="text-dim x-small text-uppercase fw-bold d-block mb-2">Consensus Detection</label>
+                                {% if disease == "Uncertain" %}
+                                <div class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-30 px-3 py-2 fw-bold mb-0 pulse-pro" style="font-size:0.85rem; white-space:normal; word-break:break-word;">
+                                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Multiple Candidates
+                                </div>
+                                {% else %}
+                                <div class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-20 px-3 py-2 fw-bold mb-0 pulse-pro" style="font-size:0.85rem; white-space:normal; word-break:break-word;">
+                                    {{ disease }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-6">
+                                <label class="text-dim x-small text-uppercase fw-bold d-block mb-2">Severity Grade</label>
+                                {% if disease == "Uncertain" %}
+                                <span class="text-warning h6 d-block mb-1 fw-bold">See breakdown below</span>
+                                {% else %}
+                                <span class="severity-high-contrast h6 d-block mb-1">{{ severity }}</span>
+                                <small class="text-info fw-bold"><i class="fa-solid fa-circle-check me-1 small"></i> {{ severity_confidence }}% Conf.</small>
+                                {% if "Macular Thickening" in severity %}
+                                <div class="alert alert-info mt-2 mb-0 py-1 px-2 small" style="border-radius: 6px;">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Grades OCT macular thickening (CST), not ICDR DR stage.
+                                </div>
+                                {% endif %}
+                                {% if severity == "N/A" %}
+                                <div class="alert alert-secondary mt-2 mb-0 py-1 px-2 small" style="border-radius: 6px;">
+                                    <i class="fas fa-circle-info me-1"></i>
+                                    No validated grading scale for this condition.
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label class="text-dim x-small text-uppercase fw-bold d-block mb-2">Retinal Burden</label>
+                                <div class="progress mb-2" style="height: 8px; background: rgba(255,255,255,0.05);">
+                                    <div class="progress-bar bg-info" data-width-dynamic="{{ impact_percentage }}"></div>
+                                </div>
+                                <span class="text-info h5 fw-bold mb-0">{{ impact_percentage }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ Discriminator Model Indicator ══ -->
+            {% if discriminator_info %}
+            <div class="row mb-4 animate-fade-in">
+                <div class="col-12">
+                    <div class="glass-card p-3 p-md-4" style="border-color: rgba(14,165,233,0.3);">
+                        <!-- Detection alert -->
+                        {% if 'ARMD' in discriminator_info.name %}
+                        <div class="d-flex align-items-start gap-2 mb-3 p-2 rounded-2" style="background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);">
+                            <i class="fa-solid fa-eye text-info fa-sm mt-1 flex-shrink-0"></i>
+                            <div>
+                                <p class="text-info fw-bold x-small mb-0 text-uppercase" style="letter-spacing:0.06em;">ARMD / CNV Detected</p>
+                                <p class="text-dim x-small mb-0 mt-1">Both Age-Related Macular Degeneration and Choroidal Neovascularization were identified in the initial classification. CNV is the angiogenic complication of neovascular AMD — both share subretinal fluid, pigment epithelial detachment, and disrupted outer retinal layers on OCT, making automated discrimination challenging. A dedicated pairwise discriminator was applied to resolve the ambiguity.</p>
+                            </div>
+                        </div>
+                        {% elif 'DME' in discriminator_info.name %}
+                        <div class="d-flex align-items-start gap-2 mb-3 p-2 rounded-2" style="background:rgba(14,165,233,0.07);border:1px solid rgba(14,165,233,0.2);">
+                            <i class="fa-solid fa-eye text-info fa-sm mt-1 flex-shrink-0"></i>
+                            <div>
+                                <p class="text-info fw-bold x-small mb-0 text-uppercase" style="letter-spacing:0.06em;">DME / DR Detected</p>
+                                <p class="text-dim x-small mb-0 mt-1">Both Diabetic Macular Edema and Diabetic Retinopathy were identified in the initial classification. DME is a direct vascular complication of DR — both share overlapping retinal features including macular thickening and vascular leakage, making automated discrimination challenging. A dedicated pairwise discriminator was applied to resolve the ambiguity.</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!-- Before / After comparison -->
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <p class="text-dim x-small fw-bold text-uppercase mb-2" style="letter-spacing:0.07em;">Initial Probability Distribution</p>
+                                {% for cls, prob in discriminator_info.initial.items() %}
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-white x-small">{{ cls }}</span>
+                                        <span class="text-dim x-small fw-bold">{{ "%.1f"|format(prob) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height:5px;background:rgba(255,255,255,0.05);">
+                                        <div class="progress-bar" data-width-dynamic="{{ prob }}" style="background: rgba(148,163,184,0.5);"></div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-6" style="border-left:1px solid rgba(255,255,255,0.07);">
+                                <p class="text-dim x-small fw-bold text-uppercase mb-2" style="letter-spacing:0.07em;">Discriminator Output</p>
+                                {% for cls, prob in discriminator_info.discriminator.items() %}
+                                {% set is_final = (cls == discriminator_info.final) %}
+                                <div class="mb-2">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="x-small {% if is_final %}text-info fw-bold{% else %}text-white{% endif %}">
+                                            {{ cls }}{% if is_final %} <i class="fa-solid fa-check fa-xs"></i>{% endif %}
+                                        </span>
+                                        <span class="x-small fw-bold {% if is_final %}text-info{% else %}text-dim{% endif %}">{{ "%.1f"|format(prob) }}%</span>
+                                    </div>
+                                    <div class="progress" style="height:5px;background:rgba(255,255,255,0.05);">
+                                        <div class="progress-bar" data-width-dynamic="{{ prob }}" {% if is_final %}style="background: #38bdf8;"{% else %}style="background: rgba(148,163,184,0.3);"{% endif %}></div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- Therefore conclusion -->
+                        <div class="text-center mt-3 pt-3" style="border-top:1px solid rgba(255,255,255,0.07);">
+                            <p class="text-dim x-small mb-2">Therefore, final verdict via <span class="text-info fw-bold">{{ discriminator_info.name }}</span></p>
+                            <span class="badge px-3 py-2" style="background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.3);color:#38bdf8;font-size:0.75rem;">
+                                <i class="fa-solid fa-check-circle me-1"></i> {{ discriminator_info.final }} &middot; {{ "%.1f"|format(discriminator_info.final_confidence) }}% confidence
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- ══ Multi-Disease Severity Breakdown (shown only when models disagree) ══ -->
+            {% if severity_map %}
+            <div class="row g-3 mb-4 animate-fade-in">
+                <div class="col-12">
+                    <div class="glass-card p-3 p-md-4 border-warning border-opacity-20" style="background: rgba(15, 23, 42, 0.85) !important;">
+
+                        <!-- Warning banner -->
+                        <div class="d-flex align-items-start gap-3 mb-4 p-3 rounded-3" style="background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25);">
+                            <i class="fa-solid fa-triangle-exclamation text-warning fa-lg mt-1 flex-shrink-0"></i>
+                            <div>
+                                <p class="text-warning fw-bold mb-1 small text-uppercase tracking-wider">Overlapping Disease Probabilities Detected</p>
+                                <p class="text-dim x-small mb-0">The AI models identified multiple possible conditions. All candidate diseases and their severity grades are shown below. Please refer this case to a specialist for confirmation.</p>
+                            </div>
+                        </div>
+
+                        <h6 class="text-sky fw-bold mb-4 text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-chart-column text-info me-2"></i>
+                            Disease Probability &amp; Severity Assessment
+                        </h6>
+
+                        <!-- Candidate cards -->
+                        <div class="row g-3 mb-4">
+                            {% for d_name, (sev_label, sev_c) in severity_map.items() %}
+                            {% set d_prob = (disease_scores.get(d_name, 0) * 100) | round(1) %}
+                            <div class="col-12 col-md-4">
+                                <div class="p-3 rounded-3 h-100" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                        <span class="fw-bold text-white small">{{ d_name }}</span>
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-20 x-small">{{ d_prob }}%</span>
+                                    </div>
+                                    <!-- Disease probability bar -->
+                                    <label class="text-dim x-small mb-1 d-block">Detection Probability</label>
+                                    <div class="progress mb-3" style="height: 6px; background: rgba(255,255,255,0.05);">
+                                        <div class="progress-bar bg-info candidate-prob-bar" data-width="{{ d_prob }}"></div>
+                                    </div>
+                                    <!-- Severity -->
+                                    <label class="text-dim x-small mb-1 d-block">Severity Grade</label>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <span class="severity-high-contrast" style="font-size: 0.9rem;">{{ sev_label if sev_label != "N/A" else "—" }}</span>
+                                        {% if sev_c > 0 %}
+                                        <span class="x-small text-info fw-bold">{{ sev_c | round(1) }}% conf.</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if sev_c > 0 %}
+                                    <div class="progress mt-2" style="height: 4px; background: rgba(255,255,255,0.05);">
+                                        <div class="progress-bar candidate-sev-bar
+                                            {% if sev_c > 65 %}sev-high{% elif sev_c > 40 %}sev-mid{% else %}sev-low{% endif %}"
+                                            data-width="{{ sev_c }}"></div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- note: probabilities shown in main bar chart below (severity overlay added) -->
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <!-- ══════════════════════════════════════════════════════════════════ -->
+
+            <!-- Visualization Hub -->
+            <div class="row g-3 mb-4 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="col-12 col-md-6 text-center">
+                    <h6 class="text-dim text-uppercase mb-2 fw-bold small opacity-75"><i class="fa-solid fa-image me-2"></i> Original Retinal Scan</h6>
+                    <div class="glass-card p-2 border-white border-opacity-10 shadow-2xl bg-black">
+                        <img src="{{ image_uri }}" class="img-fluid rounded img-report-sized" alt="Original Scan">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 text-center">
+                    <h6 class="text-sky text-uppercase mb-2 fw-bold small"><i class="fa-solid fa-microscope me-2"></i> Hybrid Saliency Extraction</h6>
+                    <div class="glass-card p-2 border-info border-opacity-20 shadow-2xl bg-black">
+                        {% if heatmap_uri %}
+                            <img src="{{ heatmap_uri }}" class="img-fluid rounded img-report-sized border border-info border-opacity-10" alt="Saliency Map">
+                        {% else %}
+                            <div class="d-flex align-items-center justify-content-center border rounded border-white border-opacity-10 bg-black img-report-sized">
+                                <span class="text-white small opacity-50">Saliency visualization unavailable</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Matrix — 2-col on desktop, 1-col on mobile -->
+            <div class="row g-3 mb-4 animate-fade-in" style="animation-delay: 0.2s;">
+                <!-- Chart 1: Radar -->
+                <div class="col-12 col-md-6">
+                    <div class="glass-card h-100 p-3">
+                        <h6 class="text-sky fw-bold mb-3 d-flex align-items-center text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-radar text-info me-2"></i>
+                            Diagnostic Confidence Radar
+                        </h6>
+                        <div class="chart-wrapper" style="height: 240px;">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart 2: Probability -->
+                <div class="col-12 col-md-6">
+                    <div class="glass-card h-100 p-3">
+                        <h6 class="text-sky fw-bold mb-3 d-flex align-items-center text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-chart-bar text-info me-2"></i>
+                            Probability Distribution
+                        </h6>
+                        <div class="chart-wrapper" style="height: 210px;">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                        <div id="barChartLegend" class="d-flex flex-wrap gap-2 mt-2"></div>
+                    </div>
+                </div>
+                <!-- Chart 3: Severity Confidence -->
+                <div class="col-12 col-md-6">
+                    <div class="glass-card h-100 p-3">
+                        <h6 class="text-sky fw-bold mb-3 d-flex align-items-center text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-circle-check text-info me-2"></i>
+                            Severity Grade Reliability
+                        </h6>
+                        <div class="chart-wrapper d-flex align-items-center justify-content-center" style="height: 220px;">
+                            <canvas id="severityDonutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- Chart 4: Retinal Burden Gauge -->
+                <div class="col-12 col-md-6">
+                    <div class="glass-card h-100 p-3">
+                        <h6 class="text-sky fw-bold mb-3 d-flex align-items-center text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-gauge-high text-info me-2"></i>
+                            Quantitative Retinal Burden
+                        </h6>
+                        <div class="chart-wrapper d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <canvas id="burdenLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pro AI Assessment Report -->
+            <div class="row g-4 animate-fade-in mb-5" style="animation-delay: 0.3s;">
+                <div class="col-12">
+                    <div class="glass-card p-4 p-md-5 border-info border-opacity-20" style="background: rgba(15, 23, 42, 0.6) !important;">
+                        <h6 class="text-sky fw-bold mb-4 d-flex align-items-center text-uppercase tracking-wider small">
+                            <i class="fa-solid fa-robot text-info me-3 pulse-pro"></i> 
+                            RetinaX Pro v2 AI Assessment Report
+                        </h6>
+                        <div class="clinical-report-container text-white fw-light opacity-90" style="line-height: 2; font-size: 1.1rem; text-align: justify; border-left: 2px solid rgba(14, 165, 233, 0.4); padding-left: 2rem;">
+                            {{ clinical_report }}
+                        </div>
+                        <div class="mt-5 pt-4 border-top border-white border-opacity-10 d-flex justify-content-between align-items-center">
+                            <p class="x-small text-dim italic mb-0">Automated Assessment Management System (ACOMS) v5.0</p>
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-3 py-2 small">Validated Logic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Prevent the hidden 210mm PDF template from creating horizontal scroll */
+html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+/* Severity confidence bar colours */
+.sev-high { background: #22c55e; }
+.sev-mid  { background: #facc15; }
+.sev-low  { background: #ef4444; }
+
+.img-report-sized { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; }
+
+/* Mobile chart & layout fixes */
+@media (max-width: 767px) {
+    .chart-wrapper { height: 200px !important; }
+    .clinical-report-container {
+        font-size: 0.9rem !important;
+        line-height: 1.8 !important;
+        padding-left: 0.75rem !important;
+    }
+    /* Prevent any glass-card 3D transforms from causing overflow */
+    .glass-card {
+        transform: none !important;
+        will-change: auto !important;
+    }
+    /* Compact header row */
+    .container.py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+}
+@media (max-width: 575px) {
+    .img-report-sized { aspect-ratio: 4 / 3; }
+}
+
+/* ── Print styles ── */
+@media print {
+    /* Hide every element on the page, then selectively reveal only the report template */
+    body * { visibility: hidden; }
+
+    #clinicalReportTemplate {
+        display: block !important;
+        visibility: visible !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 210mm !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+    }
+    #clinicalReportTemplate * { visibility: visible; }
+
+    @page { size: A4 portrait; margin: 0; }
+}
+</style>
+
+<input type="hidden" id="chartDataContainer"
+    data-disease-scores='{{ disease_scores | tojson | safe }}'
+    data-severity-conf="{{ severity_confidence }}"
+    data-burden="{{ impact_percentage }}"
+    data-severity-map='{{ severity_map | tojson | safe }}'>
+
+<!-- Clinical Report Template — hidden from screen, shown only when printing -->
+<div id="clinicalReportTemplate" style="display: none; background: #ffffff; color: #333; font-family: 'Inter', sans-serif; padding: 20mm; box-sizing: border-box;">
+    <!-- Clinical Header -->
+    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #0ea5e9; padding-bottom: 10px; margin-bottom: 30px;">
+        <div>
+            <h1 style="margin: 0; color: #030712; font-size: 24px; font-weight: 800;">RetinaX <span style="color: #0ea5e9;">Pro</span> v2.0</h1>
+            <p style="margin: 0; font-size: 12px; color: #666; font-weight: bold; text-transform: uppercase;">Advanced AI Retinal Assessment Report</p>
+        </div>
+        <div style="text-align: right;">
+            <p style="margin: 0; font-size: 10px; color: #888;">Report ID: <strong>{{ report_id }}</strong></p>
+            <p style="margin: 0; font-size: 10px; color: #888;">Clinical Assessment Logic: <strong>ACOMS v5.0</strong></p>
+        </div>
+    </div>
+
+    <!-- Patient Header Table -->
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 12px;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #eee; background: #f9f9f9; width: 15%;"><strong>Patient:</strong></td>
+            <td style="padding: 8px; border: 1px solid #eee; width: 35%;">{{ name }}</td>
+            <td style="padding: 8px; border: 1px solid #eee; background: #f9f9f9; width: 15%;"><strong>Gender:</strong></td>
+            <td style="padding: 8px; border: 1px solid #eee; width: 35%;">{{ gender }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #eee; background: #f9f9f9;"><strong>Age:</strong></td>
+            <td style="padding: 8px; border: 1px solid #eee;">{{ age }}Y</td>
+            <td style="padding: 8px; border: 1px solid #eee; background: #f9f9f9;"><strong>Ref:</strong></td>
+            <td style="padding: 8px; border: 1px solid #eee;">{{ contact_number }}</td>
+        </tr>
+    </table>
+
+    <h2 style="font-size: 16px; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 20px; color: #030712; text-transform: uppercase; letter-spacing: 1px;">
+        {% if modality == 'Fundus' %}Fundus Analysis : Pathology Map{% else %}Macula Analysis : Pathology Map{% endif %}
+    </h2>
+
+    <!-- Clinical Visualization Grid -->
+    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+        <div style="flex: 1; text-align: center;">
+            <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #666;">
+                {% if modality == 'Fundus' %}ORIGINAL FUNDUS SCAN{% else %}ORIGINAL OCT SCAN{% endif %}
+            </p>
+            <div style="border: 2px solid #eee; padding: 5px; background: #000;">
+                <img src="{{ image_uri }}" style="width: 100%; aspect-ratio: 16/9; object-fit: contain;">
+            </div>
+        </div>
+        <!-- 9-Sector Macular Map: Circular Pie -->
+        <div style="width: 250px; text-align: center;">
+            <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #666;">
+                {% if modality == 'Fundus' %}PATHOLOGY IMPACT SECTORS{% else %}DISTRIBUTION OF NORMALS (µm){% endif %}
+            </p>
+            <div style="position: relative; width: 220px; height: 220px; margin: 0 auto; border-radius: 50%; border: 1px solid #ccc; background: #f0f0f0;">
+                <!-- Inner Central Sector -->
+                {% set sector_color = '#ef4444' if impact_percentage|float > 50 else ('#facc15' if impact_percentage|float > 20 else '#22c55e') %}
+                <div class="sector-dynamic-bg" data-bg-color="{{ sector_color }}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 50%; border: 2px solid #fff; z-index: 10; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: #fff;">{{ (250 - impact_percentage|float)|int }}</div>
+                
+                <!-- Quadrant Dividers -->
+                <div style="position: absolute; top: 0; left: 50%; height: 100%; border-left: 1px solid #fff; z-index: 5;"></div>
+                <div style="position: absolute; top: 50%; left: 0; width: 100%; border-top: 1px solid #fff; z-index: 5;"></div>
+                
+                <!-- Inner 4 Sectors -->
+                <div style="position: absolute; top: 15%; left: 15%; width: 70%; height: 70%; border-radius: 50%; border: 2px solid #fff; z-index: 3;"></div>
+                
+                <!-- Colors for Sectors (Mock-logic for clinical look) -->
+                <div class="sector" style="position: absolute; top: 0; left: 0; width: 50%; height: 50%; background: #22c55e; opacity: 0.8; clip-path: polygon(100% 100%, 0 0, 100% 0);"></div>
+                <div class="sector" style="position: absolute; top: 0; right: 0; width: 50%; height: 50%; background: #22c55e; opacity: 0.8; clip-path: polygon(0 100%, 0 0, 100% 0);"></div>
+                <div class="sector" style="position: absolute; bottom: 0; left: 0; width: 50%; height: 50%; background: #facc15; opacity: 0.8; clip-path: polygon(100% 0, 0 100%, 100% 100%);"></div>
+                <div class="sector" style="position: absolute; bottom: 0; right: 0; width: 50%; height: 50%; background: #22c55e; opacity: 0.8; clip-path: polygon(0 0, 0 100%, 100% 100%);"></div>
+                
+                <p style="position: absolute; bottom: -25px; left: 0; width: 100%; font-size: 9px; color: #888;">
+                    {% if modality == 'Fundus' %}Macula / Optic Disc Centered{% else %}Fovea: 259, 66 (Automated Centroid){% endif %}
+                </p>
+            </div>
+        </div>
+        <div style="flex: 1; text-align: center;">
+            <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px; color: #666;">HYBRID SALIENCY MAP</p>
+            <div style="border: 2px solid #0ea5e9; padding: 5px; background: #000;">
+                <img src="{{ heatmap_uri }}" style="width: 100%; aspect-ratio: 16/9; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics Grid -->
+    <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+        <div style="flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; background: #f8f9fa;">
+            <p style="margin: 0; font-size: 9px; text-transform: uppercase;">Consensus Detection</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 800; color: #ef4444;">{{ disease }}</p>
+        </div>
+        <div style="flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; background: #f8f9fa;">
+            <p style="margin: 0; font-size: 9px; text-transform: uppercase;">Severity Grade</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 800; color: #0ea5e9;">{{ severity }}</p>
+        </div>
+        <div style="flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; background: #f8f9fa;">
+            <p style="margin: 0; font-size: 9px; text-transform: uppercase;">Confidence</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 800; color: #22c55e;">{{ severity_confidence }}%</p>
+        </div>
+        <div style="flex: 1; border: 1px solid #ddd; padding: 10px; text-align: center; background: #f8f9fa;">
+            <p style="margin: 0; font-size: 9px; text-transform: uppercase;">Retinal Burden</p>
+            <p style="margin: 0; font-size: 16px; font-weight: 800; color: #030712;">{{ impact_percentage }}%</p>
+        </div>
+    </div>
+
+    <!-- Medical Assessment Text -->
+    <div style="background: #fff; border: 1px solid #eee; padding: 20px; min-height: 200px; border-left: 4px solid #0ea5e9;">
+        <h6 style="margin: 0 0 10px 0; font-size: 11px; text-transform: uppercase; color: #0ea5e9;">Pro AI Clinical Assessment Report</h6>
+        <div style="font-size: 12px; line-height: 1.8; color: #444; text-align: justify;">
+            {{ clinical_report | safe }}
+        </div>
+    </div>
+
+    <!-- Footer Signature -->
+    <div style="margin-top: 50px; display: flex; justify-content: flex-end; align-items: flex-end;">
+        <div style="text-align: right;">
+            <p style="margin: 0; font-size: 9px; color: #bbb;">&copy; 2026 RetinaX Pro Systems | Page 1 of 1</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const chartContainer = document.getElementById('chartDataContainer');
+    const diseaseScores = JSON.parse(chartContainer.getAttribute('data-disease-scores'));
+    const severityConf = parseFloat(chartContainer.getAttribute('data-severity-conf')).toFixed(1);
+    const burdenVal = parseFloat(chartContainer.getAttribute('data-burden')).toFixed(1);
+
+    const labels = Object.keys(diseaseScores);
+    const dataValues = Object.values(diseaseScores).map(v => (v * 100).toFixed(1));
+
+    // Abbreviation map: full display name → short label for chart axis
+    const abbrevMap = {
+        "Age-Related Macular Degeneration": "ARMD",
+        "Choroidal Neovascularization":     "CNV",
+        "Central Serous Retinopathy":       "CSR",
+        "Diabetic Macular Edema":           "DME",
+        "Diabetic Retinopathy":             "DR",
+        "Macular Hole":                     "MH",
+        "Hypertensive Retinopathy":         "HTN-R",
+        "Normal":                           "Normal",
+        "Cataract":                         "Cataract",
+        "Glaucoma":                         "Glaucoma",
+    };
+
+    // Custom Plugin to Draw Text in Center of Donut/Gauge
+    const centerTextPlugin = {
+        id: 'centerText',
+        afterDraw: (chart) => {
+            const pluginOptions = chart.config.options.plugins.centerText;
+            if (pluginOptions && pluginOptions.display !== false) {
+                const { ctx, chartArea: { top, bottom, left, right } } = chart;
+                ctx.save();
+                const fontSize = pluginOptions.fontSize || '2rem';
+                const color = pluginOptions.color || '#0ea5e9';
+                
+                ctx.font = `bold ${fontSize} Inter`;
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                const centerX = (left + right) / 2;
+                // Adjust Y position for half-donuts (gauges)
+                const centerY = chart.config.options.circumference === 180 ? (bottom - 20) : (top + bottom) / 2;
+                
+                ctx.fillText(pluginOptions.text, centerX, centerY);
+                ctx.restore();
+            }
+        }
+    };
+
+    // 1. Radar Chart Engine
+    new Chart(document.getElementById('radarChart').getContext('2d'), {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'System Confidence (%)',
+                data: dataValues,
+                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                borderColor: '#0ea5e9',
+                pointBackgroundColor: '#0ea5e9',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255,255,255,0.1)' },
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    pointLabels: { color: '#94a3b8', font: { weight: 'bold', size: window.innerWidth < 576 ? 8 : (window.innerWidth < 768 ? 9 : 11) } },
+                    ticks: { display: false },
+                    suggestedMin: 0,
+                    suggestedMax: 100
+                }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 2. Probability Distribution Chart — adds severity confidence overlay when multi-disease mode
+    const severityMapData = JSON.parse(chartContainer.getAttribute('data-severity-map') || '{}');
+    const hasSeverityMap  = Object.keys(severityMapData).length > 0;
+
+    const barDatasets = [
+        {
+            label: 'Detection Probability (%)',
+            data: dataValues,
+            backgroundColor: labels.map(l => l === "{{ disease }}" ? '#ef4444' : 'rgba(14,165,233,0.75)'),
+            borderRadius: 8
+        }
+    ];
+
+    if (hasSeverityMap) {
+        const sevConfData = labels.map(l => {
+            const entry = severityMapData[l];
+            return entry ? parseFloat(entry[1].toFixed(1)) : 0;
+        });
+        barDatasets.push({
+            label: 'Severity Confidence (%)',
+            data: sevConfData,
+            backgroundColor: 'rgba(251,191,36,0.7)',
+            borderRadius: 8
+        });
+    }
+
+    new Chart(document.getElementById('barChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: labels, datasets: barDatasets },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8', callback: v => v + '%' } },
+                x: {
+                    grid: { display: false },
+                    ticks: {
+                        color: '#f8fafc',
+                        font: { weight: 'bold' },
+                        callback: function(val, index) {
+                            return abbrevMap[labels[index]] || labels[index];
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: hasSeverityMap,
+                    labels: { color: '#94a3b8', boxWidth: 12, padding: 16 }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: (items) => labels[items[0].dataIndex],
+                        label: (ctx) => ' ' + ctx.dataset.label + ': ' + ctx.raw + '%'
+                    }
+                }
+            }
+        }
+    });
+
+    // Bar chart legend — abbreviation → full name
+    const legendHtml = labels
+        .filter(l => abbrevMap[l] && abbrevMap[l] !== l)
+        .map(l => {
+            const isDetected = l === "{{ disease }}";
+            const borderCol = isDetected ? 'border-danger' : 'border-info';
+            const textCol   = isDetected ? 'text-danger'  : 'text-info';
+            const bgCol     = isDetected ? 'bg-danger'    : 'bg-info';
+            return `<span class="badge ${bgCol} bg-opacity-10 ${textCol} border ${borderCol} border-opacity-20 px-2 py-1 small fw-semibold">${abbrevMap[l]} <span class="fw-normal opacity-75">— ${l}</span></span>`;
+        })
+        .join('');
+    document.getElementById('barChartLegend').innerHTML = legendHtml;
+
+    // 3. Severity Confidence Donut
+    new Chart(document.getElementById('severityDonutChart').getContext('2d'), {
+        type: 'doughnut',
+        plugins: [centerTextPlugin],
+        data: {
+            labels: ['Confidence', 'Remaining'],
+            datasets: [{
+                data: [severityConf, 100 - severityConf],
+                backgroundColor: ['#0ea5e9', 'rgba(255,255,255,0.05)'],
+                borderColor: 'transparent',
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '80%',
+            plugins: { 
+                legend: { display: false },
+                tooltip: { enabled: true },
+                centerText: { text: severityConf + '%', color: '#0ea5e9' }
+            }
+        }
+    });
+
+    // 4. Retinal Burden Half-Donut Gauge
+    new Chart(document.getElementById('burdenLineChart').getContext('2d'), {
+        type: 'doughnut',
+        plugins: [centerTextPlugin],
+        data: {
+            labels: ['Pathology', 'Clear'],
+            datasets: [{
+                data: [burdenVal, 100 - burdenVal],
+                backgroundColor: ['#ef4444', 'rgba(255,255,255,0.05)'],
+                borderColor: 'transparent',
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            rotation: -90,
+            circumference: 180,
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '80%',
+            plugins: { 
+                legend: { display: false },
+                tooltip: { enabled: true },
+                centerText: { text: burdenVal + '%', color: '#ef4444', fontSize: '2rem' }
+            }
+        }
+    });
+
+    // Apply data-width to progress bars (avoids Jinja inside style= CSS linter errors)
+    document.querySelectorAll('.candidate-prob-bar, .candidate-sev-bar').forEach(function(el) {
+        el.style.width = el.getAttribute('data-width') + '%';
+    });
+
+    // Multi-disease severity chart (only rendered if the canvas exists)
+    const multiCanvas = document.getElementById('multiDiseaseChart');
+    if (multiCanvas) {
+        const severityMap = JSON.parse(chartContainer.getAttribute('data-severity-map') || '{}');
+        const dScores     = diseaseScores;
+
+        const mLabels   = Object.keys(severityMap);
+        const mProbs    = mLabels.map(d => ((dScores[d] || 0) * 100).toFixed(1));
+        const mSevConfs = mLabels.map(d => parseFloat((severityMap[d][1] || 0).toFixed(1)));
+
+        new Chart(multiCanvas.getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: mLabels,
+                datasets: [
+                    {
+                        label: 'Detection Probability (%)',
+                        data: mProbs,
+                        backgroundColor: 'rgba(14, 165, 233, 0.7)',
+                        borderRadius: 8,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Severity Confidence (%)',
+                        data: mSevConfs,
+                        backgroundColor: 'rgba(251, 191, 36, 0.7)',
+                        borderRadius: 8,
+                        yAxisID: 'y'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#94a3b8', callback: v => v + '%' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#f8fafc', font: { weight: 'bold' } }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: { color: '#94a3b8', boxWidth: 12, padding: 16 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw + '%'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Apply dynamic widths and backgrounds to bypass inline-style CSS linter issues
+    document.querySelectorAll('[data-width-dynamic]').forEach(el => {
+        el.style.width = el.getAttribute('data-width-dynamic') + '%';
+    });
+    document.querySelectorAll('[data-bg-color]').forEach(el => {
+        el.style.backgroundColor = el.getAttribute('data-bg-color');
+    });
+
+    document.getElementById('downloadPdf').addEventListener('click', function () {
+        window.print();
+    });
+</script>
+{% endblock %}

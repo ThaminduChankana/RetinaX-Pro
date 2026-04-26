@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Diagnostic Engine | RetinaX Pro{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png');">
+    <div class="container py-5 px-4">
+        <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+            <div class="col-lg-10">
+                <div class="glass-card animate-fade-in shadow-2xl p-4 p-lg-5">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center mb-3">
+                            <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3 shadow-lg">
+                                <i class="fa-solid fa-dna text-info fa-2x pulse-pro"></i>
+                            </div>
+                            <h2 class="fw-bold text-navy-deep tracking-tight mb-0">RetinaX <span class="text-sky">Pro</span> Input</h2>
+                        </div>
+                        <p class="text-dim opacity-75">Provide patient demographics and upload a high-resolution OCT scan.</p>
+                    </div>
+
+                    <form action="{{ url_for('analyze_image') }}" method="POST" enctype="multipart/form-data">
+                        <div class="row g-4">
+                            <!-- Patient Data Column -->
+                            <div class="col-lg-6">
+                                <div class="mb-4">
+                                    <label class="form-label text-sky small fw-bold text-uppercase ms-1 border-bottom border-navy border-opacity-10 pb-1 mb-3 d-block"><i class="fa-solid fa-id-card me-2"></i> Assessment Data</label>
+                                    <div class="mb-3">
+                                        <input type="text" name="name" class="form-control" placeholder="Patient Full Name" required>
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="number" name="age" class="form-control" placeholder="Age (Years)" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <select name="gender" class="form-control" required>
+                                                <option value="" disabled selected>Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" name="contactNumber" class="form-control" placeholder="Contact / Reference ID" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upload Column -->
+                            <div class="col-lg-6">
+                                <label class="form-label text-sky small fw-bold text-uppercase ms-1 border-bottom border-navy border-opacity-10 pb-1 mb-3 d-block"><i class="fa-solid fa-camera-retro me-2"></i> OCT Scan Upload</label>
+                                <div class="h-100 d-flex flex-column">
+                                    <div class="flex-grow-1 glass-card bg-white bg-opacity-5 border-dashed border-info d-flex flex-column align-items-center justify-content-center p-4 text-center hover-glow" style="min-height: 250px; background: rgba(15, 23, 42, 0.03) !important;">
+                                        <div id="imagePreview" class="img-preview-box mb-3 d-none animate-fade-in">
+                                            <img src="" id="previewImg" class="img-fluid rounded shadow-lg" style="max-height: 180px;">
+                                        </div>
+                                        <i class="fa-solid fa-file-medical text-dim fa-3x mb-3 opacity-50" id="uploadIcon"></i>
+                                        <div class="w-100">
+                                            <input type="file" name="image" id="imageInput" class="form-control" accept="image/*" required>
+                                        </div>
+                                        <p class="text-dim x-small mt-3 mb-0" id="uploadText">
+                                            <span class="d-none d-md-inline">Click to select a high-res scan</span>
+                                            <span class="d-inline d-md-none">Tap to take photo or choose from gallery</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5 pt-3">
+                            <button type="submit" class="btn btn-info btn-lg px-5 py-3 rounded-pill text-white fw-bold shadow-lg w-100 w-lg-auto border-info border-opacity-50" id="launchBtn">
+                                Initiate Neural Assessment <i class="fa-solid fa-microscope ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.border-dashed { border-style: dashed !important; border-width: 2px !important; }
+.hover-glow:hover { border-color: var(--sky-pro) !important; background: rgba(3, 105, 161, 0.12) !important; }
+.img-preview-box { width: 100%; border: 1px solid rgba(15, 23, 42, 0.1); background: #000; }
+</style>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('loader-overlay').style.display = 'flex';
+    });
+
+    document.getElementById('imageInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('previewImg').src = event.target.result;
+                document.getElementById('imagePreview').classList.remove('d-none');
+                document.getElementById('uploadIcon').classList.add('d-none');
+                document.getElementById('uploadText').innerText = 'Selected: ' + file.name;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

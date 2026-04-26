@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Login | RetinaX AI{% endblock %}
+
+{% block content %}
+<div class="hero-section" style="background: linear-gradient(rgba(3, 7, 18, 0.9), rgba(3, 7, 18, 0.7)), url('/static/images/background_user.png');">
+    <div class="container py-5 px-4">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-lg-5">
+                <div class="glass-card animate-fade-in shadow-2xl p-4 p-md-5">
+                    <div class="text-center mb-5">
+                        <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill bg-info bg-opacity-10 text-info mb-3 small fw-bold text-uppercase tracking-wider shadow-sm border border-info border-opacity-10">
+                            <i class="fa-solid fa-lock me-2 text-info"></i> Secure User Portal
+                        </div>
+                        <h2 class="fw-bold text-white tracking-tight mb-2">RetinaX <span class="text-sky">Pro</span></h2>
+                        <p class="text-dim opacity-75">Sign in to your diagnostic workspace.</p>
+                    </div>
+
+                    <form action="{{ url_for('login') }}" method="POST">
+                        <div class="mb-3 text-start">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-envelope me-1"></i> Registry Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="user@retinax.pro" required>
+                        </div>
+                        <div class="mb-4 text-start">
+                            <label class="form-label text-sky small fw-bold text-uppercase ms-1"><i class="fa-solid fa-key me-1"></i> Security Token</label>
+                            <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-info w-100 py-3 rounded-pill text-white fw-bold shadow-lg border-info border-opacity-30">
+                            Authorize Access <i class="fa-solid fa-shield-check ms-2"></i>
+                        </button>
+                    </form>
+
+                    <div class="mt-4 pt-4 border-top border-white border-opacity-10">
+                        <p class="text-dim small mb-0 opacity-75">First time using RetinaX? 
+                            <a href="{{ url_for('register') }}" class="text-sky fw-bold text-decoration-none hover-underline">Create Access Hub</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

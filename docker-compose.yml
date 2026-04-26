@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  retinax:
+    container_name: retinax_docker_cont
+    image: retinax
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5005"
+      - "5006:5006"
+    volumes:
+      - ./uploads:/app/uploads
+    stdin_open: true
+    tty: true
