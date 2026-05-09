@@ -399,9 +399,9 @@ def _run_fusion_hybrid_model(serve_fn, image_path):
 
 
 def _run_primary_expert_model(serve_fn, image_path):
-    """Run inference on a GCP Edge model (discriminators and pairwise classifiers).
+    """Run inference on a Fusion Edge model (discriminators and pairwise classifiers).
 
-    All GCP Edge models share the same SavedModel signature:
+    All Fusion Edge models share the same SavedModel signature:
       inputs:  image_bytes (raw JPEG bytes), key (string)
       outputs: labels (string array), scores (float array), key
 
